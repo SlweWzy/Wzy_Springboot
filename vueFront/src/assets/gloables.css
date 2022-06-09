@@ -1,0 +1,17 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.mL-5 {
+    margin-Left: 5px;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.pd-10 {
+    padding: 10px 0;
+}
