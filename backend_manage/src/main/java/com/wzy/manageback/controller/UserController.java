@@ -46,6 +46,12 @@ public class UserController {
         return userService.removeById(id);
     }
 
+    //批量删除
+    @PostMapping("/deleteMuch")
+    public boolean deleteMuch(@RequestBody List<Integer> ids){  //类似传[1,2,3]这样的数据
+        return userService.removeBatchByIds(ids);
+    }
+
     //分页查看信息
     //@RequestParam相当于接收接口路径的  eg: /user/searchByPage/ ?pageNum=1&pageSize=10
     //limit第一个参数=（pageNum-1）*pageSize
@@ -70,7 +76,7 @@ public class UserController {
     public IPage<User> findPage(@RequestParam Integer pageNum,
                                 @RequestParam Integer pageSize,
                                 @RequestParam(defaultValue = "") String username,
-                                @RequestParam(defaultValue = "") String nickname,
+                                @RequestParam(defaultValue = "") String email,
                                 @RequestParam(defaultValue = "") String address){
 
         IPage<User> page = new Page<>(pageNum, pageSize);
@@ -80,13 +86,15 @@ public class UserController {
             queryWrapper.like("username",username);
         }
 
-        if (!"".equals(nickname)){
-            queryWrapper.like("nickname",nickname);
+        if (!"".equals(email)){
+            queryWrapper.like("email",email);
         }
 
         if (!"".equals(address)){
             queryWrapper.like("address",address);
         }
+
+        queryWrapper.orderByDesc("id");
 
         IPage<User> userIPage = userService.page(page,queryWrapper);
         return userIPage;
